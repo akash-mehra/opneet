@@ -54,6 +54,7 @@ import type { Mode, Pool, Question, Session, StudyState, Subject } from "./domai
 import { Brand, Dialog, duration, Empty, letters, SectionTitle } from "./components/ui";
 import InstallPrompt from "./components/InstallPrompt";
 import MiniTest from "./components/MiniTest";
+import QuestionDiagram from "./components/QuestionDiagram";
 import { MINI_TEST, miniTestQuestions, createMiniTestPaper } from "./data/mini-test";
 
 type Page = "home" | "qbank" | "tests" | "review" | "progress" | "settings";
@@ -1223,6 +1224,7 @@ function StudySession({
             <span>{q.difficulty}</span>
           </div>
           <h1 className="question-prompt">{q.prompt}</h1>
+          <QuestionDiagram question={q} />
           <div className="options" role="group" aria-label="Answer options">
             {q.options.map((option, i) => {
               const correct = revealed && i === q.correct;
@@ -1673,6 +1675,7 @@ function Results({
               </button>
               {open === q.id && (
                 <div className="result-answer">
+                  <QuestionDiagram question={q} />
                   <div className="review-options">
                     {q.options.map((option, i) => (
                       <div

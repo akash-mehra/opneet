@@ -1,4 +1,13 @@
 @import url("./theme.css");
+.question-diagram { margin: 0 0 24px; padding: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.question-diagram svg { display: block; width: 100%; max-width: 520px; height: auto; margin: auto; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.question-diagram text { fill: var(--ink); stroke: none; font: 20px "DM Sans Variable", sans-serif; }
+.question-diagram .diagram-block { fill: var(--soft); }
+.question-diagram .diagram-fluid { fill: var(--forest-soft); stroke: none; }
+.question-diagram .diagram-cutout { fill: var(--surface); }
+.question-diagram .diagram-point, .question-diagram .diagram-arrow { fill: var(--ink); stroke: none; }
+.question-diagram .diagram-muted { stroke: var(--muted); }
+.question-diagram figcaption { margin-top: 6px; color: var(--muted); text-align: center; font-size: 12px; }
 .mini-test-card { margin-bottom: 28px; }
 .mini-test-summary { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 16px 0; color: var(--forest); }
 .mini-test-summary span { color: var(--muted); }

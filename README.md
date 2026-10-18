@@ -10,6 +10,8 @@ Choose **View mini test** on Overview or Practice & tests. The paper has **100 o
 
 Each physiology chapter has ten questions. New attempts shuffle chapters/difficulty within Biology (1–60) and Physics (61–100). Answers and explanations appear after submission. The original practice bank also supports chapter practice, bookmarks and revision; these drafts remain separate from the verified PYQ bank.
 
+Ten Physics questions include responsive SVG diagrams where the setup benefits from one: projectile, connected blocks/pulley, incline, angled pull, vertical circle, disc geometry/axes and pipe flow. They also appear in post-test review and work offline. Unchanged older attempts can display the new diagrams without resetting saved answers or the timer.
+
 See [the blueprint and references](content/MINI-TEST-01.md) and [the complete author review copy with answer key](content/MINI-TEST-01-REVIEW.md). To regenerate the latter after editing, run `node --import tsx scripts/export-mini-test.ts`. Difficulty has not been calibrated with student performance, and drafts are not claimed as subject-specialist-approved material.
 
 ## Install as a web app

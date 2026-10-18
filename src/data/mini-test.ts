@@ -1,18 +1,19 @@
 import type { Question, Subject } from "../domain/types";
 import { validateQuestions, shuffled } from "../domain/engine";
+import { physicsDiagrams } from "./physics-diagrams";
 
 type Item = [Question["difficulty"], string, string, Question["options"], number, string];
 let biologyId = 0;
 let physicsId = 0;
 function chapter(subject: Subject, name: string, items: Item[]): Question[] {
-  return items.map(([difficulty, topic, prompt, options, correct, explanation]) => ({
+  return items.map<Question>(([difficulty, topic, prompt, options, correct, explanation]) => ({
     id: `mini01-${subject === "Biology" ? "b" : "p"}${String(subject === "Biology" ? ++biologyId : ++physicsId).padStart(2, "0")}`,
     revision: 1, subject, chapter: name, topic, difficulty, prompt, options, correct, explanation,
     takeaway: explanation.split(". ")[0].replace(/\.$/, "") + ".",
     tags: ["Mini Test 01", "Original practice", topic],
     source: { kind: "original", label: "Original NEET UG-style draft · not a PYQ", reference: "content/MINI-TEST-01.md" },
     review: { status: "draft" },
-  }));
+  })).map(q => physicsDiagrams[q.id] ? { ...q, revision: 2, diagram: physicsDiagrams[q.id] } : q);
 }
 
 export const miniTestBiology: Question[] = [

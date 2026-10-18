@@ -953,6 +953,8 @@ Kinematics / Projectile motion
 
 A projectile is launched from level ground at 20 m s⁻¹ at 30° above the horizontal. Neglect air resistance and take g = 10 m s⁻². Its time of flight back to the same level is:
 
+**Diagram: Projectile launch.** A projectile is launched from level ground at 20 metres per second, 30 degrees above the horizontal, and lands at the same height.
+
 A. 1 s
 B. 4 s
 C. 2√3 s
@@ -1058,6 +1060,8 @@ Forces and Newton's Laws of Motion / Connected blocks
 
 Blocks of masses 2 kg and 3 kg are connected by a light string on a smooth horizontal surface. A horizontal 10 N force pulls the 3 kg block away from the 2 kg block. The string tension is:
 
+**Diagram: Two connected blocks.** A 2 kilogram block on the left is joined by a light horizontal string to a 3 kilogram block on the right. A 10 newton horizontal force pulls the 3 kilogram block to the right on a smooth surface.
+
 A. 6 N
 B. 10 N
 C. 4 N
@@ -1072,6 +1076,8 @@ The system accelerates at a = 10/(2 + 3) = 2 m s⁻². The only horizontal force
 Forces and Newton's Laws of Motion / Connected system with friction
 
 A 5 kg block on a rough horizontal table is connected by a light string over a smooth massless pulley to a hanging 3 kg mass. The 3 kg mass moves downward. If μk = 0.20 and g = 10 m s⁻², the string tension is:
+
+**Diagram: Rough table and hanging mass.** A 5 kilogram block rests on a rough horizontal table. A string passes over a smooth pulley at the table edge to a hanging 3 kilogram mass. The kinetic friction coefficient on the table is 0.20.
 
 A. 20 N
 B. 22.5 N
@@ -1118,6 +1124,8 @@ Friction / Limiting equilibrium
 
 A block is just about to slide down an inclined plane with tanθ = 0.5. The coefficient of static friction is:
 
+**Diagram: Block on an incline.** A block is at limiting equilibrium on a plane sloping upward to the right. The angle with the horizontal is theta, with tangent theta equal to 0.5. The block is about to slide down the plane.
+
 A. 2
 B. 0.25
 C. 0.5
@@ -1132,6 +1140,8 @@ At impending downward motion, mg sinθ = μs mg cosθ. Therefore μs = tanθ = 0
 Friction / Pulled rough block
 
 A 5 kg block slides on a horizontal rough floor in the direction of the horizontal component of a pulling force. It is pulled by a 25 N force at 37° above the horizontal. With μk = 0.20, sin37° = 0.6, cos37° = 0.8 and g = 10 m s⁻², its acceleration is:
+
+**Diagram: Angled pull on a rough floor.** A 5 kilogram block slides to the right on a rough horizontal floor. A 25 newton force pulls to the right at 37 degrees above the horizontal. The kinetic friction coefficient is 0.20.
 
 A. 2.0 m s⁻²
 B. 2.6 m s⁻²
@@ -1192,6 +1202,8 @@ Static friction supplies the centripetal force: mv²/r ≤ μs mg. Thus vmax = �
 Circular Motion / Vertical circle
 
 A small mass on a light inextensible string just completes a vertical circle of radius R, with the string taut throughout. Neglect air resistance. Its minimum speed at the lowest point is:
+
+**Diagram: Vertical circular path.** A small mass attached to a string moves around a vertical circle of radius R. The centre, highest point and lowest point are marked. No speed or tension value is supplied.
 
 A. √(gR)
 B. √(5gR)
@@ -1313,6 +1325,8 @@ Centre of Mass / Removed portion
 
 A uniform thin disc of radius R has its centre at x = 0. A circular hole of radius R/2, centred at x = R/2, is cut out. The centre of mass of the remaining sheet lies at:
 
+**Diagram: Disc with an off-centre circular hole.** An original disc has radius R and centre O at x equals zero. A circular hole of radius R over 2 has centre C at x equals R over 2 and is internally tangent to the original disc on the positive x side. The hole is marked as removed.
+
 A. x = −R/8
 B. x = −R/6
 C. x = R/6
@@ -1418,6 +1432,8 @@ Rotational Mechanics / Parallel-axis theorem
 
 A uniform disc has mass M and radius R. Its moment of inertia about an axis perpendicular to its plane and passing through a point on its rim is:
 
+**Diagram: Parallel axes through a disc.** Viewed along the axes, a disc has centre O and a point P on its rim separated by radius R. The two marked axes are perpendicular to the disc, one through O and the other through P.
+
 A. MR²/2
 B. MR²
 C. 2MR²
@@ -1463,6 +1479,8 @@ Mechanical Properties of Fluids / Continuity
 
 Water flows steadily through a horizontal pipe whose cross-sectional area decreases from A to A/2. Assuming incompressible flow, the speed in the narrower section is:
 
+**Diagram: Pipe narrowing in cross-sectional area.** Water flows to the right through a horizontal pipe. The wide section has cross-sectional area A and the narrow section has area A over 2. Flow arrows show direction only, not relative speed.
+
 A. Twice the original speed
 B. Half the original speed
 C. Four times the original speed
@@ -1477,6 +1495,8 @@ For steady incompressible flow, Av is constant. Halving cross-sectional area dou
 Mechanical Properties of Fluids / Bernoulli equation
 
 In a horizontal pipe carrying ideal water steadily, speed increases from 2 m s⁻¹ to 4 m s⁻¹. With density 1000 kg m⁻³, the pressure decreases by:
+
+**Diagram: Horizontal pipe flow speeds.** Ideal water flows to the right in a horizontal pipe. At the wide section the speed is 2 metres per second and pressure is P1; at the narrower section the speed is 4 metres per second and pressure is P2. Pressures are not given.
 
 A. 2000 Pa
 B. 4000 Pa

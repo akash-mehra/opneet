@@ -48,6 +48,10 @@ Some SATHEE direct page requests were blocked; the indexed question/solution tex
 
 ## Review and maintenance
 
+Ten Physics setup questions include versioned, code-drawn SVG diagrams: `mini01-p04`, `p11`, `p12`, `p15`, `p16`, `p20`, `p28`, `p35`, `p38` and `p39` (each with the `mini01-` prefix). They illustrate supplied geometry and givens, without worked-out answers. These ten question records are revision 2; all stems, options and keys are unchanged. The other 30 Physics items and all Biology items have no diagram.
+
+Diagrams have accessible titles/descriptions and theme-aware, responsive labels. They appear during attempts and in expanded result review. An older saved item without diagram metadata is supplemented only if its stable ID, stem, all options and answer key exactly match the current item; its stored answers, revision and deadline are not rewritten. Versioned drawing IDs preserve the illustrated givens.
+
 Authoring data: `src/data/mini-test.ts`. Source kind `original` and review state `draft` keep these out of `content/reviewed.json`. The original practice bank makes them available for chapter practice and bookmarked revision as well as the fixed mini test. Subject-specialist review and student performance calibration remain future editorial steps.
 
 `npm run content:check` checks shape and quota integrity. `npm test` checks the paper contract and engine. `npm run test:e2e` checks the launch, submission and persistence flow. These automated checks establish application behaviour, not independent scientific validation.

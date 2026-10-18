@@ -58,6 +58,8 @@ The current schema supports plain text and Unicode notation; it does not yet sup
 `npm run content:check` is also part of the GitHub deployment workflow. Validation checks structure and review metadata; a human must verify educational correctness.
 ## Original mini-test drafts
 
+Question records may include `diagram: { id, title, alt }`. The ID selects a versioned code-drawn SVG in `src/components/QuestionDiagram.tsx`; titles and descriptions must be nonempty. `src/data/physics-diagrams.ts` maps selected mini-test question IDs to metadata. Match the exact givens and do not add solved quantities. Increment the question revision when adding a diagram, and use a new diagram identity if illustrated givens change.
+
 Mini Test 01 is authored in `src/data/mini-test.ts` with `source.kind: "original"` and `review.status: "draft"`. It is available through a separate original practice bank and the fixed test launcher. Its questions must not be copied into the approved-PYQ file or assigned fabricated examination years. The existing approved-PYQ gate still requires actual PYQ provenance and an approval record.
 
 `content/MINI-TEST-01.md` records the topic/difficulty contract and source references. `content/MINI-TEST-01-REVIEW.md` is a generated author copy with all questions, correct choices and explanations. Preserve question identities and increment revisions for corrections. `npm run content:check` validates exact quotas alongside the reviewed-bank gate.

@@ -9,6 +9,7 @@ export interface Question {
   topic: string;
   difficulty: "Easy" | "Medium" | "Hard";
   prompt: string;
+  diagram?: { id: string; title: string; alt: string };
   options: [string, string, string, string];
   correct: number;
   explanation: string;

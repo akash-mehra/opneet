@@ -190,6 +190,8 @@ export function validateQuestions(input: unknown, requireApproved = false): Ques
       fail("provide four distinct options.");
     if (!Number.isInteger(q.correct) || q.correct < 0 || q.correct > 3)
       fail("correct must be an option index from 0 to 3.");
+    if (q.diagram && [q.diagram.id, q.diagram.title, q.diagram.alt].some(value => typeof value !== "string" || !value.trim()))
+      fail("diagrams need an identity, title and text description.");
     if (!q.source || !["sample", "original", "pyq"].includes(q.source.kind) || !q.source.label?.trim())
       fail("source information is required.");
     if (!q.review || !["sample", "draft", "approved"].includes(q.review.status))

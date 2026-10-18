@@ -98,3 +98,20 @@ test("first offline relaunch restores the app and saved practice", async ({ page
   await page.locator(".pause-overlay").getByRole("button", { name: "Resume practice", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Let’s understand why." })).toBeVisible();
 });
+
+test("mini-test diagrams reopen offline with the saved exam deadline", async ({ page, context }) => {
+  await page.goto("./");
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+    if (!navigator.serviceWorker.controller) await new Promise<void>(resolve => navigator.serviceWorker.addEventListener("controllerchange", () => resolve(), { once: true }));
+  });
+  await page.getByRole("button", { name: "View mini test" }).click();
+  await page.getByRole("button", { name: "Begin 110-minute test" }).click();
+  const session = await page.evaluate(() => JSON.parse(localStorage.getItem("opneet.study.v1")!).active);
+  const index = session.questions.findIndex((q: { id: string }) => q.id === "mini01-p28");
+  await page.getByRole("button", { name: `Go to question ${index + 1}`, exact: true }).click();
+  await context.setOffline(true);
+  await page.reload();
+  await expect(page.getByRole("img", { name: "Disc with an off-centre circular hole" })).toBeVisible();
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("opneet.study.v1")!).active.deadline)).toBe(session.deadline);
+});
