@@ -52,6 +52,7 @@ import {
 import { SUBJECTS } from "./domain/types";
 import type { Mode, Pool, Question, Session, StudyState, Subject } from "./domain/types";
 import { Brand, Dialog, duration, Empty, letters, SectionTitle } from "./components/ui";
+import InstallPrompt from "./components/InstallPrompt";
 
 type Page = "home" | "qbank" | "tests" | "review" | "progress" | "settings";
 const icons: Record<Subject, LucideIcon> = {
@@ -212,6 +213,7 @@ export default function App() {
   const active = state.active;
   return (
     <>
+      <InstallPrompt enabled={!(active && studyOpen && !result) && !builder && !confirm} />
       {active && studyOpen && !result ? (
         <StudySession
           session={active}

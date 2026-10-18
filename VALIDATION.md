@@ -2,6 +2,8 @@
 
 ## Executed successfully
 
+- PWA update: `npm run build`, **6 production PWA checks**, and **9 existing browser flows** passed. Chromium reported no installability errors; manifest identity/start/scope and decoded icons resolve correctly under `/opneet/`. Offline first relaunch restored saved practice and its explanation. Native install acceptance/failure events and standalone display mode were simulated; these do not prove Android WebAPK installation on a physical device.
+- The install popup received a scoped manual **SHIP** review using desktop, phone, tablet and phone-help captures. The design documenter confirmed the extension preserves the existing system. The automated context/detector engine was unavailable; no automated design-engine pass is claimed.
 - `npm run build`: strict TypeScript check and static production build passed on the final implementation.
 - `npm test`: **13 tests passed** for first/current answer handling, practice locking, expired selection rejection, UG scoring/flags/blanks, guess score, snapshots, completion idempotency, revision pools, content approval and backup validation.
 - `npm run content:check`: passed; **0 published PYQs**, sample questions remain separate.
@@ -20,7 +22,7 @@ The reviewer scored the listed fixes resolved and returned **SHIP**, conditional
 
 - Tested with Playwright Chromium and Chrome 124 bundled in the Android 15 emulator image. This does not establish physical-device performance, current Chrome compatibility, every browser, screen reader or mobile OS. The tablet run used a size/density override on the same emulator, not a separate tablet hardware profile. No APK was built.
 - The Impeccable launcher/detector engine was unavailable after actual attempts. Manual review was used; no automated design-detector pass is claimed.
-- No live GitHub Pages or Railway deployment was performed. The repository target is still to be selected.
+- GitHub Pages is live at `https://akash-mehra.github.io/opneet/` from the public `akash-mehra/opneet` repository. Railway is not deployed.
 - Storage quota failure, multi-tab concurrency and cross-device synchronization were not proven by the test suite. Storage errors have visible recovery/export handling; synchronization is not implemented.
 - Sample question correctness was checked during authoring; no claim is made that the samples are PYQs or a complete NEET UG syllabus.
 - The full-paper preset remains disabled until the approved bank has at least 45 Physics, 45 Chemistry and 90 Biology questions.

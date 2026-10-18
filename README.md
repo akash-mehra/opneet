@@ -2,6 +2,18 @@
 
 A personal NEET **UG** question bank for Physics, Chemistry and Biology. React + TypeScript + Vite, with a static build for GitHub Pages. No account or backend is required.
 
+Live app: https://akash-mehra.github.io/opneet/
+
+## Install as a web app
+
+Open the live site directly in your browser. A dismissible suggestion appears outside study sessions, only in browser mode. Supported browsers offer **Install opneet** when their native installer is available; otherwise **How to install** explains the browser menu steps. Installed standalone windows do not show this suggestion. Dismissal lasts seven days. Accepting the installer is described as a request, not proof of a finished Android installation.
+
+The manifest's identity, launch URL and scope resolve to `/opneet/`, separate from other apps on the same GitHub Pages domain. Production builds generate a service worker that precaches the app, fonts and sample/reviewed content included in that build. After the first successful online load, the cached build can relaunch offline. Future question content is bundled locally until a backend is added. Updates wait for existing app tabs/windows to close; reopen online to pick up an activated update. No forced reload interrupts a study session.
+
+If Android says **already installed** but cannot open the app, export your study backup first. Check Android Settings → Apps for a broken opneet installation and uninstall it if present; remove any stale home-screen shortcut. Reopen the live URL directly in an updated Chrome and install again. Browser installation state and Android WebAPK delivery are controlled by the browser/OS; this app cannot clear a broken device package remotely. Avoid clearing browser site data without a backup.
+
+To check the production PWA under the GitHub Pages subpath, run `npm run build` then `npm run test:pwa`. The suite checks manifest/icon/scope validity, Chromium installability errors, browser-only UI, native-prompt handoff/error handling and offline session restoration. Native installer events are simulated; a physical Android install is not claimed.
+
 ## Run locally
 
 Use Node 24 (`.nvmrc`):
