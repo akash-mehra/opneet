@@ -1,4 +1,12 @@
 @import url("./theme.css");
+.mini-test-card { margin-bottom: 28px; }
+.mini-test-summary { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 16px 0; color: var(--forest); }
+.mini-test-summary span { color: var(--muted); }
+.mini-test-syllabus { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px; }
+.mini-test-syllabus h3 { font-size: 16px; }
+.mini-test-syllabus ul { padding-left: 20px; }
+.mini-test-syllabus li { margin-bottom: 6px; }
+@media (max-width: 700px) { .mini-test-syllabus { grid-template-columns: 1fr; gap: 12px; } }
 .install-prompt {
   position: fixed;
   z-index: 70;

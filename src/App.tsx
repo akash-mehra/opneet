@@ -53,6 +53,8 @@ import { SUBJECTS } from "./domain/types";
 import type { Mode, Pool, Question, Session, StudyState, Subject } from "./domain/types";
 import { Brand, Dialog, duration, Empty, letters, SectionTitle } from "./components/ui";
 import InstallPrompt from "./components/InstallPrompt";
+import MiniTest from "./components/MiniTest";
+import { MINI_TEST, miniTestQuestions, createMiniTestPaper } from "./data/mini-test";
 
 type Page = "home" | "qbank" | "tests" | "review" | "progress" | "settings";
 const icons: Record<Subject, LucideIcon> = {
@@ -121,7 +123,7 @@ export default function App() {
     window.addEventListener("keydown", shortcut);
     return () => window.removeEventListener("keydown", shortcut);
   }, []);
-  const bank = state.preferences.bank === "sample" ? samples : reviewed;
+  const bank = state.preferences.bank === "sample" ? samples : state.preferences.bank === "original" ? miniTestQuestions : reviewed;
   const showToast = (message: string) => setToast(message);
   useEffect(() => {
     if (!toast) return;
@@ -172,13 +174,13 @@ export default function App() {
   ) {
     setBuilder({ pool, subject: selected, mode });
   }
-  function start(questions: Question[], title: string, mode: Mode, minutes: number) {
+  function start(questions: Question[], title: string, mode: Mode, minutes: number, bank?: StudyState["preferences"]["bank"]) {
     if (storageError) {
       showToast("Recover or clear the unreadable saved data in Settings first.");
       return;
     }
     const launch = () => {
-      setState((s) => ({ ...s, active: createSession(questions, title, mode, minutes) }));
+      setState((s) => ({ ...s, preferences: bank ? { ...s.preferences, bank } : s.preferences, active: createSession(questions, title, mode, minutes) }));
       setBuilder(null);
       setResult(null);
       setStudyOpen(true);
@@ -330,11 +332,12 @@ export default function App() {
               <div className="bank-strip">
                 <span>
                   <span className="status-dot" />
-                  {state.preferences.bank === "sample" ? "Sample bank" : "Reviewed PYQ bank"}
+                  {state.preferences.bank === "sample" ? "Sample bank" : state.preferences.bank === "original" ? "Original practice bank" : "Reviewed PYQ bank"}
                   <span className="bank-strip-detail">
                     {" "}
                     · {bank.length} questions
                     {state.preferences.bank === "sample" ? " · original demos, not PYQs" : ""}
+                    {state.preferences.bank === "original" ? " · draft questions, not PYQs" : ""}
                   </span>
                 </span>
                 <button
@@ -343,7 +346,7 @@ export default function App() {
                       ...s,
                       preferences: {
                         ...s.preferences,
-                        bank: s.preferences.bank === "sample" ? "reviewed" : "sample",
+                        bank: s.preferences.bank === "sample" ? "reviewed" : s.preferences.bank === "reviewed" ? "original" : "sample",
                       },
                     }))
                   }
@@ -377,6 +380,7 @@ export default function App() {
                           }).format(now)}
                         </span>
                       </div>
+                      <MiniTest onStart={() => start(createMiniTestPaper(), MINI_TEST.title, "exam", MINI_TEST.minutes, "original")} />
                       {state.active && (
                         <button
                           className="resume-banner"
@@ -597,6 +601,7 @@ export default function App() {
                           <p>Learn with feedback, or give yourself room to remember.</p>
                         </div>
                       </div>
+                      <MiniTest onStart={() => start(createMiniTestPaper(), MINI_TEST.title, "exam", MINI_TEST.minutes, "original")} />
                       <div className="mode-grid">
                         <section className="mode-panel">
                           <BookOpen size={28} />
@@ -1081,7 +1086,7 @@ function Builder({
           {matching.length < count && matching.length > 0 ? " · fewer than requested" : ""}
         </span>
         <span>
-          {questions[0]?.source.kind === "sample" ? "Sample content · not PYQs" : "Reviewed PYQs"}
+          {questions[0]?.source.kind === "sample" ? "Sample content · not PYQs" : questions[0]?.source.kind === "original" ? "Original draft practice · not PYQs" : "Reviewed PYQs"}
         </span>
       </div>
       {!matching.length && (
@@ -1903,11 +1908,11 @@ function Settings({
       <section className="settings-section">
         <div>
           <h2>Your question bank</h2>
-          <p>Keep demonstrations and reviewed exam material distinct.</p>
+          <p>Choose demonstrations, original draft practice, or reviewed PYQs.</p>
         </div>
         <div className="settings-controls">
           <div className="choice-row">
-            {(["sample", "reviewed"] as const).map((bank) => (
+            {(["sample", "reviewed", "original"] as const).map((bank) => (
               <button
                 key={bank}
                 className={`choice ${state.preferences.bank === bank ? "selected" : ""}`}
@@ -1916,13 +1921,13 @@ function Settings({
               >
                 {bank === "sample"
                   ? `Sample bank · ${samples.length}`
-                  : `Reviewed PYQs · ${reviewed.length}`}
+                  : bank === "original" ? `Original practice · ${miniTestQuestions.length}` : `Reviewed PYQs · ${reviewed.length}`}
               </button>
             ))}
           </div>
           <p className="field-help">
             The sample questions demonstrate the app; they are not past exam questions. Reviewed
-            PYQs will appear after you add approved content to the repository.
+            PYQs will appear after you add approved content to the repository. Original practice contains the 100-question mini-test draft.
           </p>
         </div>
       </section>

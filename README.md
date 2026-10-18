@@ -4,6 +4,14 @@ A personal NEET **UG** question bank for Physics, Chemistry and Biology. React +
 
 Live app: https://akash-mehra.github.io/opneet/
 
+## Mini Test 01
+
+Choose **View mini test** on Overview or Practice & tests. The paper has **100 original NEET UG-style draft questions**, a **110-minute** deadline and a **400-mark** maximum (+4/−1/0). Biology contributes 60 questions across breathing, excretion, circulation/heart, locomotion, neural control and endocrine coordination. Physics contributes 40 across the requested mechanics and fluid topics. Difficulty is exactly 40 Easy / 40 Medium / 20 Hard by author estimate.
+
+Each physiology chapter has ten questions. New attempts shuffle chapters/difficulty within Biology (1–60) and Physics (61–100). Answers and explanations appear after submission. The original practice bank also supports chapter practice, bookmarks and revision; these drafts remain separate from the verified PYQ bank.
+
+See [the blueprint and references](content/MINI-TEST-01.md) and [the complete author review copy with answer key](content/MINI-TEST-01-REVIEW.md). To regenerate the latter after editing, run `node --import tsx scripts/export-mini-test.ts`. Difficulty has not been calibrated with student performance, and drafts are not claimed as subject-specialist-approved material.
+
 ## Install as a web app
 
 Open the live site directly in your browser. A dismissible suggestion appears outside study sessions, only in browser mode. Supported browsers offer **Install opneet** when their native installer is available; otherwise **How to install** explains the browser menu steps. Installed standalone windows do not show this suggestion. Dismissal lasts seven days. Accepting the installer is described as a request, not proof of a finished Android installation.

@@ -12,6 +12,35 @@ import {
 } from "../src/domain/engine";
 import { samples } from "../src/data/questions";
 import { validateBackup } from "../src/data/storage";
+import { MINI_TEST, createMiniTestPaper, miniTestQuestions, validateMiniTest } from "../src/data/mini-test";
+
+test("mini-test paper has exact subject, topic and difficulty quotas without repeated questions", () => {
+  assert.doesNotThrow(validateMiniTest);
+  const paper = createMiniTestPaper();
+  assert.equal(paper.length, 100);
+  assert.equal(new Set(paper.map(q => q.id)).size, 100);
+  assert.ok(paper.slice(0, 60).every(q => q.subject === "Biology"));
+  assert.ok(paper.slice(60).every(q => q.subject === "Physics"));
+  for (const [difficulty, count] of Object.entries(MINI_TEST.difficulty))
+    assert.equal(paper.filter(q => q.difficulty === difficulty).length, count);
+  assert.deepEqual(new Set(paper.map(q => q.id)), new Set(miniTestQuestions.map(q => q.id)));
+});
+test("100-question mini-test uses a 110-minute deadline and scores out of 400", () => {
+  const session = createSession(createMiniTestPaper(), MINI_TEST.title, "exam", MINI_TEST.minutes, 1000);
+  assert.equal(session.deadline, 1000 + 110 * 60_000);
+  for (const q of session.questions) session.answers[q.id].selected = q.correct;
+  assert.equal(summarize(session).score, 400);
+  for (const q of session.questions) session.answers[q.id].selected = (q.correct + 1) % 4;
+  assert.equal(summarize(session).score, -100);
+});
+test("original mini-test snapshots restore while remaining excluded from verified PYQs", () => {
+  const state = emptyState();
+  state.preferences.bank = "original";
+  state.active = createSession(createMiniTestPaper(), MINI_TEST.title, "exam", MINI_TEST.minutes, 1000);
+  assert.equal(validateBackup(JSON.parse(JSON.stringify(state))).active?.questions.length, 100);
+  assert.ok(miniTestQuestions.every(q => q.source.kind === "original" && q.review.status === "draft"));
+  assert.throws(() => validateQuestions(miniTestQuestions, true), /approved PYQs/);
+});
 
 test("selection preserves the first answer, including option zero", () => {
   const s = createSession([samples[0]], "Test", "exam", 1, 1000);

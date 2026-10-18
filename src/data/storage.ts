@@ -61,7 +61,7 @@ export function validateBackup(value: unknown): StudyState {
     !d.preferences ||
     !["light", "sepia", "dark"].includes(d.preferences.theme) ||
     !["normal", "large"].includes(d.preferences.fontSize) ||
-    !["sample", "reviewed"].includes(d.preferences.bank)
+    !["sample", "reviewed", "original"].includes(d.preferences.bank)
   )
     throw new Error("Invalid reading preferences.");
   const ids = new Set<string>();

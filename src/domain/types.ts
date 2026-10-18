@@ -14,7 +14,7 @@ export interface Question {
   explanation: string;
   takeaway: string;
   tags: string[];
-  source: { kind: "sample" | "pyq"; label: string; year?: number; reference?: string };
+  source: { kind: "sample" | "original" | "pyq"; label: string; year?: number; reference?: string };
   review: { status: "sample" | "draft" | "approved"; reviewedBy?: string; reviewedAt?: string };
 }
 export interface Answer {
@@ -52,7 +52,7 @@ export interface History {
 export interface Preferences {
   theme: "light" | "sepia" | "dark";
   fontSize: "normal" | "large";
-  bank: "sample" | "reviewed";
+  bank: "sample" | "reviewed" | "original";
 }
 export interface StudyState {
   version: 1;
