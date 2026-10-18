@@ -1220,8 +1220,6 @@ function StudySession({
           </div>
           <div className="question-tags">
             <span className={`subject-text ${q.subject.toLowerCase()}`}>{q.subject}</span>
-            <span>{q.topic}</span>
-            <span>{q.difficulty}</span>
           </div>
           <h1 className="question-prompt">{q.prompt}</h1>
           <QuestionDiagram question={q} />
@@ -1667,7 +1665,7 @@ function Results({
                 </span>
                 <span>
                   <small>
-                    {q.subject} · {q.topic}
+                    {q.subject}
                   </small>
                   <strong>{q.prompt}</strong>
                 </span>
