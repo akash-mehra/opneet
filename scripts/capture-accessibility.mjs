@@ -1,0 +1,11 @@
+import { chromium } from '@playwright/test';
+const browser=await chromium.launch();
+const page=await browser.newPage({viewport:{width:800,height:1000}});
+await page.goto('http://127.0.0.1:5173/');
+await page.getByRole('navigation',{name:'Main navigation'}).getByRole('button',{name:'Question bank',exact:true}).focus();
+await page.screenshot({path:'.impeccable/review/tablet-focus.png',fullPage:true});
+await page.getByRole('button',{name:'Choose your mode'}).click();
+await page.evaluate(()=>window.scrollTo(0,0));
+await page.screenshot({path:'.impeccable/review/tablet-dialog.png',fullPage:true});
+console.log('Tablet focus tooltip and named dialog captured.');
+await browser.close();

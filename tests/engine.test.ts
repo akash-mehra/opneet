@@ -1,0 +1,129 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import {
+  checkpoint,
+  complete,
+  createSession,
+  emptyState,
+  poolQuestions,
+  selectAnswer,
+  summarize,
+  validateQuestions,
+} from "../src/domain/engine";
+import { samples } from "../src/data/questions";
+import { validateBackup } from "../src/data/storage";
+
+test("selection preserves the first answer, including option zero", () => {
+  const s = createSession([samples[0]], "Test", "exam", 1, 1000);
+  const first = selectAnswer(s, 0, 2000);
+  const changed = selectAnswer(first, 2, 3000);
+  assert.equal(changed.answers[samples[0].id].firstSelected, 0);
+  assert.equal(changed.answers[samples[0].id].selected, 2);
+  assert.equal(s.answers[samples[0].id].selected, null);
+});
+test("checking practice locks selection, while exam permits changes", () => {
+  const q = samples[0];
+  const s = selectAnswer(createSession([q], "Practice", "practice", 1, 1000), 0, 2000);
+  const locked = { ...s, answers: { ...s.answers, [q.id]: { ...s.answers[q.id], checked: true } } };
+  assert.equal(selectAnswer(locked, 2, 3000).answers[q.id].selected, 0);
+});
+test("expired exams reject answer changes even before timeout tick", () => {
+  const s = createSession([samples[0]], "Exam", "exam", 1, 1000);
+  assert.equal(selectAnswer(s, 2, 61000).answers[samples[0].id].selected, null);
+});
+test("UG scoring includes flagged answers and gives no penalty for blanks", () => {
+  let s = createSession(samples.slice(0, 3), "Score", "exam", 3, 1000);
+  s = selectAnswer(s, 2, 2000);
+  s.answers[samples[0].id].flagged = true;
+  s.answers[samples[0].id].guessed = true;
+  s = { ...s, current: 1 };
+  s = selectAnswer(s, 0, 3000);
+  s.answers[samples[1].id].guessed = true;
+  const r = summarize(s);
+  assert.equal(r.score, 3);
+  assert.equal(r.correct, 1);
+  assert.equal(r.incorrect, 1);
+  assert.equal(r.skipped, 1);
+  assert.equal(r.guessScore, 3);
+});
+test("completion creates an immutable snapshot and preserves history across reattempts", () => {
+  const q = samples[0];
+  let state = emptyState();
+  state.active = selectAnswer(createSession([q], "First", "practice", 1, 1000), 0, 2000);
+  state = complete(state, "submitted", 3000);
+  const first = state.sessions[0];
+  assert.equal(state.history[q.id].correct, false);
+  state.active = selectAnswer(createSession([q], "Again", "practice", 1, 4000), q.correct, 5000);
+  state = complete(state, "submitted", 6000);
+  assert.equal(state.history[q.id].firstAnswer, 0);
+  assert.equal(state.history[q.id].latestAnswer, q.correct);
+  assert.equal(state.history[q.id].attempts, 2);
+  assert.equal(first.answers[q.id].selected, 0);
+  assert.equal(poolQuestions([q], state, "incorrect").length, 0);
+  assert.equal(complete(state).sessions.length, 2);
+});
+test("question content is snapshotted, not shared with the live bank", () => {
+  const qs = structuredClone(samples.slice(0, 1));
+  const s = createSession(qs, "Snapshot", "practice", 1, 0);
+  qs[0].prompt = "Edited later";
+  assert.notEqual(s.questions[0].prompt, qs[0].prompt);
+});
+test("checkpoint clamps active exam time to deadline and paused practice does not accumulate", () => {
+  const s = createSession([samples[0]], "Timed", "exam", 1, 1000);
+  assert.equal(checkpoint(s, 90000).answers[samples[0].id].timeSpentMs, 60000);
+  const paused = { ...s, status: "paused" as const };
+  assert.equal(checkpoint(paused, 90000).answers[samples[0].id].timeSpentMs, 0);
+});
+test("timeout uses deadline as completion timestamp", () => {
+  const state = emptyState();
+  state.active = createSession([samples[0]], "Timed", "exam", 1, 1000);
+  const result = complete(state, "timeout", 95000);
+  assert.equal(result.sessions[0].completedAt, 61000);
+  assert.equal(result.sessions[0].completionReason, "timeout");
+});
+test("review pools use actual history and bookmarks", () => {
+  const q = samples[0];
+  let state = emptyState();
+  state.active = selectAnswer(createSession([q], "Test", "exam", 1, 0), 0, 10);
+  state.active = selectAnswer(state.active, 1, 20);
+  state.active.answers[q.id].guessed = true;
+  state = complete(state, "submitted", 30);
+  state.bookmarks = [q.id];
+  for (const pool of ["incorrect", "guessed", "changed", "bookmarked"] as const)
+    assert.equal(poolQuestions([q], state, pool).length, 1);
+  assert.equal(poolQuestions([q], state, "unseen").length, 0);
+});
+test("content gate rejects PG subjects, duplicate IDs and unreviewed publishing", () => {
+  assert.throws(() => validateQuestions([{ ...samples[0], subject: "Anatomy" }]), /subject/);
+  assert.throws(() => validateQuestions([samples[0], samples[0]]), /duplicate/);
+  assert.throws(() => validateQuestions([samples[0]], true), /approved PYQs/);
+  assert.throws(() => validateQuestions([{ ...samples[0], correct: 8 }]), /correct/);
+});
+test("approved PYQs require traceable source and approval metadata", () => {
+  const q = {
+    ...samples[0],
+    source: { kind: "pyq", label: "Reviewed source", year: 2020, reference: "Paper A, question 1" },
+    review: { status: "approved", reviewedBy: "Owner", reviewedAt: "2026-10-18" },
+  };
+  assert.equal(validateQuestions([q], true).length, 1);
+  assert.throws(
+    () => validateQuestions([{ ...q, review: { status: "approved" } }], true),
+    /reviewer/,
+  );
+});
+test("backup validation rejects malformed answer data", () => {
+  const state = emptyState();
+  state.active = createSession([samples[0]], "Backup", "practice", 1, 0);
+  assert.equal(validateBackup(JSON.parse(JSON.stringify(state))).version, 1);
+  state.active.answers[samples[0].id].selected = 99;
+  assert.throws(() => validateBackup(state), /answer/);
+});
+test("backup validation rejects pausable exams and invalid practice deadlines", () => {
+  const state = emptyState();
+  state.active = createSession([samples[0]], "Exam", "exam", 1, 1000);
+  state.active.status = "paused";
+  assert.throws(() => validateBackup(state), /timer/);
+  state.active = createSession([samples[0]], "Practice", "practice", 1, 1000);
+  state.active.deadline = 4000;
+  assert.throws(() => validateBackup(state), /timer/);
+});

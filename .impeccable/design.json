@@ -1,0 +1,107 @@
+{
+  "name": "opneet study desk",
+  "mode": "operate",
+  "tokens": {
+    "paper": "#f7f8f2",
+    "surface": "#ffffff",
+    "ink": "#202d28",
+    "muted": "#647168",
+    "forest": "#214d3b",
+    "forestSoft": "#e7eee3",
+    "line": "#e0e6dd",
+    "clay": "#9c5435",
+    "blue": "#345d81",
+    "font": "DM Sans Variable",
+    "radius": "8px inputs; 9px buttons; 12px cards; 14px task panels",
+    "controlTypicalMinimum": "44px"
+  },
+  "authority": "Original implementation; user-requested familiar QBank patterns; no copied assets.",
+  "responsive": {
+    "mobile": "<=700px: bottom navigation, stacked panels, divided subject rows; focused session with sticky actions and expandable palette",
+    "tablet": "701\u2013950px: 76px icon rail with named navigation and hover/focus tooltips",
+    "desktop": ">950px: 228px rail (200px through 1180px), 1320px content cap and session question palette"
+  },
+  "themes": {
+    "light": {
+      "paper": "#f7f8f2",
+      "surface": "#fff",
+      "surface-hover": "#fcfdf8",
+      "ink": "#202d28",
+      "muted": "#647168",
+      "forest": "#214d3b",
+      "forest-hover": "#183e2e",
+      "on-forest": "#f7f8ee",
+      "forest-soft": "#e7eee3",
+      "green-muted": "#53684f",
+      "green-line": "#cedbc5",
+      "line": "#e0e6dd",
+      "line-strong": "#cbd5c8",
+      "soft": "#eff2eb",
+      "clay": "#9c5435",
+      "clay-soft": "#f7ede3",
+      "blue": "#345d81",
+      "blue-soft": "#eaf0f4",
+      "selection": "#cbdcbd",
+      "focus": "#7b9142"
+    },
+    "sepia": {
+      "paper": "#f5efdf",
+      "surface": "#fcf8ed",
+      "surface-hover": "#f7f0df",
+      "ink": "#413c2c",
+      "muted": "#746c56",
+      "forest": "#4a5b35",
+      "forest-hover": "#394729",
+      "forest-soft": "#e6e7cf",
+      "green-muted": "#616443",
+      "green-line": "#d3d6b9",
+      "line": "#e0d9c4",
+      "line-strong": "#ccc1a7",
+      "soft": "#ede6d2",
+      "clay": "#8d5032",
+      "clay-soft": "#f2e3d2",
+      "blue": "#4d6271",
+      "blue-soft": "#e7e9df",
+      "selection": "#d9d4ab",
+      "focus": "#6a783d"
+    },
+    "dark": {
+      "paper": "#18221d",
+      "surface": "#202c25",
+      "surface-hover": "#28382d",
+      "ink": "#e3e9df",
+      "muted": "#acbbad",
+      "forest": "#bdd4aa",
+      "forest-hover": "#d1e3c4",
+      "on-forest": "#213529",
+      "forest-soft": "#2d4031",
+      "green-muted": "#b5c9ab",
+      "green-line": "#465e43",
+      "line": "#354538",
+      "line-strong": "#52654f",
+      "soft": "#26372b",
+      "clay": "#ebad86",
+      "clay-soft": "#49352b",
+      "blue": "#abc9e2",
+      "blue-soft": "#283b46",
+      "selection": "#506543",
+      "focus": "#cadc99"
+    }
+  },
+  "extensions": {
+    "sourceFiles": [
+      "src/theme.css",
+      "src/styles.css",
+      "src/components/ui.tsx",
+      "src/App.tsx"
+    ],
+    "focus": "3px solid semantic focus color; 4px offset",
+    "motion": "150\u2013180ms control transitions; feedback vertical entrance; reduced-motion removes animations and transitions",
+    "controls": "44px typical main controls; compact and text controls have smaller implemented minima",
+    "dialog": "native modal; heading accessible name, Escape dismissal and invoker focus restoration",
+    "review": {
+      "verdict": "SHIP; final build gate recorded in .impeccable/review/verdict.md",
+      "automatedDetection": "Unavailable after attempts; no detector pass claimed"
+    }
+  }
+}
