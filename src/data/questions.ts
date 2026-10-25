@@ -1,7 +1,7 @@
 import type { Question, Subject } from "../domain/types";
 import reviewedData from "../../content/reviewed.json";
 import { validateQuestions } from "../domain/engine";
-import { miniTestQuestions } from "./mini-test";
+import { originalQuestions } from "./original-questions";
 const make = (
   id: string,
   subject: Subject,
@@ -231,4 +231,4 @@ export const samples: Question[] = [
 ];
 validateQuestions(samples);
 export const reviewed = validateQuestions(reviewedData, true);
-export const allQuestions = [...samples, ...reviewed, ...miniTestQuestions];
+export const allQuestions = [...samples, ...reviewed, ...originalQuestions];

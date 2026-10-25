@@ -2,6 +2,7 @@ import { useId } from "react";
 import type { ReactNode } from "react";
 import type { Question } from "../domain/types";
 import { miniTestQuestions } from "../data/mini-test";
+import { biologyDrawing } from "./BiologyDrawings";
 
 export function getQuestionDiagram(question: Question) {
   if (question.diagram) return question.diagram;
@@ -89,7 +90,7 @@ export default function QuestionDiagram({ question }: { question: Question }) {
     "pipe-area-v1": pipe(false),
     "pipe-speed-v1": pipe(true),
   };
-  const drawing = drawings[diagram.id];
+  const drawing = drawings[diagram.id] ?? biologyDrawing(diagram.id, arrow);
   if (!drawing) return null;
   return <figure className="question-diagram">
     <svg viewBox="0 0 420 255" role="img" aria-labelledby={`${uid}-title`} aria-describedby={`${uid}-desc`}>

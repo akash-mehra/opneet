@@ -13,6 +13,56 @@ import {
 import { samples } from "../src/data/questions";
 import { validateBackup } from "../src/data/storage";
 import { MINI_TEST, createMiniTestPaper, miniTestQuestions, validateMiniTest } from "../src/data/mini-test";
+import { BIOLOGY_TEST, BIOLOGY_REPEAT_IDS, biologyTestQuestions, createBiologyTestPaper, validateBiologyTest } from "../src/data/biology-test";
+import { originalQuestions } from "../src/data/original-questions";
+
+test("biology paper covers only the requested chapters with exact difficulty, repeat and diagram counts", () => {
+  assert.doesNotThrow(validateBiologyTest);
+  const paper = createBiologyTestPaper();
+  assert.equal(paper.length, 90);
+  assert.equal(new Set(paper.map(q => q.id)).size, 90);
+  assert.ok(paper.every(q => q.subject === "Biology"));
+  assert.equal(new Set(paper.map(q => q.chapter)).size, 9);
+  for (const [chapter, count] of Object.entries(BIOLOGY_TEST.chapters))
+    assert.equal(paper.filter(q => q.chapter === chapter).length, count);
+  for (const [difficulty, count] of Object.entries(BIOLOGY_TEST.difficulty))
+    assert.equal(paper.filter(q => q.difficulty === difficulty).length, count);
+  const repeats = paper.filter(q => miniTestQuestions.some(old => old.id === q.id));
+  assert.deepEqual(new Set(repeats.map(q => q.id)), new Set(BIOLOGY_REPEAT_IDS));
+  for (const q of repeats) assert.strictEqual(q, miniTestQuestions.find(old => old.id === q.id));
+  assert.equal(paper.filter(q => q.diagram).length, 6);
+  assert.equal(originalQuestions.length, 178);
+  assert.equal(new Set(originalQuestions.map(q => q.id)).size, 178);
+  assert.throws(() => validateQuestions(biologyTestQuestions, true), /approved PYQs/);
+});
+
+test("biology exam restores diagram metadata and a 90-minute deadline, with scoring out of 360", () => {
+  const state = emptyState();
+  state.preferences.bank = "original";
+  state.active = createSession(createBiologyTestPaper(), BIOLOGY_TEST.title, "exam", BIOLOGY_TEST.minutes, 1000);
+  assert.equal(state.active.deadline, 1000 + 90 * 60_000);
+  const restored = validateBackup(JSON.parse(JSON.stringify(state)));
+  assert.deepEqual(restored.active, state.active);
+  for (const q of state.active.questions) state.active.answers[q.id].selected = q.correct;
+  assert.equal(summarize(state.active).score, 360);
+  for (const q of state.active.questions) state.active.answers[q.id].selected = (q.correct + 1) % 4;
+  assert.equal(summarize(state.active).score, -90);
+});
+
+test("a repeated biology item retains history/bookmark identity without altering the previous snapshot", () => {
+  const q = biologyTestQuestions.find(q => q.id === BIOLOGY_REPEAT_IDS[0])!;
+  let state = emptyState();
+  state.bookmarks = [q.id];
+  state.active = selectAnswer(createSession([q], "Test 01", "exam", 110, 1000), (q.correct + 1) % 4, 2000);
+  state = complete(state, "submitted", 3000);
+  const snapshot = JSON.stringify(state.sessions[0]);
+  state.active = selectAnswer(createSession([q], "Test 02", "exam", 90, 4000), q.correct, 5000);
+  state = complete(state, "submitted", 6000);
+  assert.equal(state.history[q.id].attempts, 2);
+  assert.equal(state.history[q.id].correct, true);
+  assert.deepEqual(state.bookmarks, [q.id]);
+  assert.equal(JSON.stringify(state.sessions[1]), snapshot);
+});
 
 test("mini-test paper has exact subject, topic and difficulty quotas without repeated questions", () => {
   assert.doesNotThrow(validateMiniTest);

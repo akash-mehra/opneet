@@ -115,3 +115,24 @@ test("mini-test diagrams reopen offline with the saved exam deadline", async ({ 
   await expect(page.getByRole("img", { name: "Disc with an off-centre circular hole" })).toBeVisible();
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("opneet.study.v1")!).active.deadline)).toBe(session.deadline);
 });
+
+test("biology test and its six diagrams work offline and preserve the saved timer", async ({ page, context }) => {
+  await page.goto("./");
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+    if (!navigator.serviceWorker.controller) await new Promise<void>(resolve => navigator.serviceWorker.addEventListener("controllerchange", () => resolve(), { once: true }));
+  });
+  await context.setOffline(true);
+  await page.reload();
+  await page.getByRole("button", { name: "View biology test" }).click();
+  await page.getByRole("button", { name: "Begin 90-minute biology test" }).click();
+  const session = await page.evaluate(() => JSON.parse(localStorage.getItem("opneet.study.v1")!).active);
+  for (const q of session.questions.filter((q: { diagram?: object }) => q.diagram)) {
+    const index = session.questions.findIndex((item: { id: string }) => item.id === q.id);
+    await page.getByRole("button", { name: `Go to question ${index + 1}`, exact: true }).click();
+    await expect(page.getByRole("img", { name: q.diagram.title, exact: true })).toBeVisible();
+  }
+  await page.reload();
+  await expect(page.locator(".question-diagram")).toBeVisible();
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("opneet.study.v1")!).active.deadline)).toBe(session.deadline);
+});

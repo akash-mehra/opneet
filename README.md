@@ -4,6 +4,14 @@ A personal NEET **UG** question bank for Physics, Chemistry and Biology. React +
 
 Live app: https://akash-mehra.github.io/opneet/
 
+## Mini Test 02 · Biology
+
+Choose **View biology test** on Overview or Practice & tests. This paper has **90 Biology questions**, a **90-minute** deadline and a **360-mark** maximum (+4/−1/0). It covers The Living World (12), Biological Classification (18), Plant Kingdom (18), and Human Physiology (42; seven in each of the six areas used in Test 01).
+
+There are **78 new questions, 12 unchanged repeats from Test 01, and six original diagram questions**. The internal difficulty target is 27 Easy / 40 Medium / 23 Hard, a step up from Test 01 by author estimate. Question and review tags hide topic/difficulty; metadata is retained. All 90 questions shuffle together on a fresh attempt. Diagrams work offline and appear in expanded answer review after submission. Repeated IDs share bookmarks/history; completed attempts remain snapshots.
+
+See [the blueprint, repeat list and image provenance](content/MINI-TEST-02.md) and [the complete author review copy](content/MINI-TEST-02-REVIEW.md). Regenerate it with `node --import tsx scripts/export-biology-test.ts`. The combined original bank contains 178 unique questions, with repeats included once. All test content remains draft practice, separate from approved PYQs.
+
 ## Mini Test 01
 
 Choose **View mini test** on Overview or Practice & tests. The paper has **100 original NEET UG-style draft questions**, a **110-minute** deadline and a **400-mark** maximum (+4/−1/0). Biology contributes 60 questions across breathing, excretion, circulation/heart, locomotion, neural control and endocrine coordination. Physics contributes 40 across the requested mechanics and fluid topics. Difficulty is exactly 40 Easy / 40 Medium / 20 Hard by author estimate.
@@ -80,7 +88,7 @@ Drafts must never go into the published reviewed file. Do not relabel sample con
 ## Verification
 
 ```sh
-npm test                  # 13 learning-engine/content/backup regressions
+npm test                  # 19 learning-engine/content/backup regressions
 npm run content:check
 npm run build             # strict TypeScript + static production build
 npx playwright install chromium

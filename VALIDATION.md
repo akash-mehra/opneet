@@ -1,4 +1,16 @@
-# Validation · 18 October 2026
+# Validation · 25 October 2026
+
+## Mini Test 02 · Biology
+
+- Strict TypeScript/production build and content checks passed. The original bank contains 178 unique records; the approved PYQ bank remains empty and separate.
+- **19 engine tests**, **16 browser flows**, and **8 production PWA checks** passed. New checks cover the exact 90-question Biology-only syllabus, 27/40/23 difficulty quotas, six diagrams, 12 exact repeats, a 90-minute saved deadline, scoring out of 360, backup restoration and preservation of repeat history/bookmarks without changing previous snapshots.
+- Browser coverage verifies all six diagrams in the exam and expanded result review, no answer feedback before submission, hidden per-question topic/difficulty tags with retained data, phone dialog focus return and 320px label bounds. Production coverage starts the Biology test offline, renders all six diagrams and restores the deadline after offline reload. Two targeted browser checks and the targeted offline check passed again after final prompt/label refinements.
+- Final capture set: 24 unobstructed figure captures plus home/preflight/study/review across desktop 1440px, narrow phone 320px, tablet 800px and dark phone 390px. No horizontal overflow or page errors were recorded. Capture setup dismisses the optional install reminder so it does not obscure answer review. Artifacts are ignored under `.impeccable/review/biology-test/`.
+- The six figures are original SVG schematics, embedded in the offline bundle; no third-party images are redistributed. Source and curriculum notes are in `content/MINI-TEST-02.md`. Difficulty is an author estimate; these software and wording checks do not establish specialist approval or calibrated student difficulty.
+- Automated Impeccable context/detector attempts failed because its engine was unavailable. No automated design-engine pass is claimed.
+- The independent reviewer checked all 90 keys/explanations and the supplied device/theme captures, then requested truthful preflight copy and five stronger Hard questions. Both listed fixes were scored **resolved / SHIP** after revised content, fresh captures, strict build, content validation, 19 engine tests and two targeted browser tests. This verdict concerns the scoped extension and listed fixes; it is not specialist certification or empirical difficulty calibration.
+
+## Earlier release checks · 18 October 2026
 
 ## Executed successfully
 
@@ -34,4 +46,4 @@ The reviewer scored the listed fixes resolved and returned **SHIP**, conditional
 - Sample question correctness was checked during authoring; no claim is made that the samples are PYQs or a complete NEET UG syllabus.
 - The full-paper preset remains disabled until the approved bank has at least 45 Physics, 45 Chemistry and 90 Biology questions.
 
-Build output is approximately 349 KB JavaScript (110 KB gzip), 43 KB CSS (9 KB gzip), plus self-hosted font files. Bundling emits non-fatal `use client` directive warnings from Lucide; this is a client-only static application.
+Build output is approximately 397 KB JavaScript (126 KB gzip), 43.5 KB CSS (9.4 KB gzip), plus self-hosted font files. Bundling emits non-fatal `use client` directive warnings from Lucide; this is a client-only static application.

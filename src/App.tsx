@@ -54,8 +54,11 @@ import type { Mode, Pool, Question, Session, StudyState, Subject } from "./domai
 import { Brand, Dialog, duration, Empty, letters, SectionTitle } from "./components/ui";
 import InstallPrompt from "./components/InstallPrompt";
 import MiniTest from "./components/MiniTest";
+import BiologyTest from "./components/BiologyTest";
+import { BIOLOGY_TEST, createBiologyTestPaper } from "./data/biology-test";
+import { originalQuestions } from "./data/original-questions";
 import QuestionDiagram from "./components/QuestionDiagram";
-import { MINI_TEST, miniTestQuestions, createMiniTestPaper } from "./data/mini-test";
+import { MINI_TEST, createMiniTestPaper } from "./data/mini-test";
 
 type Page = "home" | "qbank" | "tests" | "review" | "progress" | "settings";
 const icons: Record<Subject, LucideIcon> = {
@@ -124,7 +127,7 @@ export default function App() {
     window.addEventListener("keydown", shortcut);
     return () => window.removeEventListener("keydown", shortcut);
   }, []);
-  const bank = state.preferences.bank === "sample" ? samples : state.preferences.bank === "original" ? miniTestQuestions : reviewed;
+  const bank = state.preferences.bank === "sample" ? samples : state.preferences.bank === "original" ? originalQuestions : reviewed;
   const showToast = (message: string) => setToast(message);
   useEffect(() => {
     if (!toast) return;
@@ -381,6 +384,7 @@ export default function App() {
                           }).format(now)}
                         </span>
                       </div>
+                      <BiologyTest onStart={() => start(createBiologyTestPaper(), BIOLOGY_TEST.title, "exam", BIOLOGY_TEST.minutes, "original")} />
                       <MiniTest onStart={() => start(createMiniTestPaper(), MINI_TEST.title, "exam", MINI_TEST.minutes, "original")} />
                       {state.active && (
                         <button
@@ -602,6 +606,7 @@ export default function App() {
                           <p>Learn with feedback, or give yourself room to remember.</p>
                         </div>
                       </div>
+                      <BiologyTest onStart={() => start(createBiologyTestPaper(), BIOLOGY_TEST.title, "exam", BIOLOGY_TEST.minutes, "original")} />
                       <MiniTest onStart={() => start(createMiniTestPaper(), MINI_TEST.title, "exam", MINI_TEST.minutes, "original")} />
                       <div className="mode-grid">
                         <section className="mode-panel">
@@ -1922,7 +1927,7 @@ function Settings({
               >
                 {bank === "sample"
                   ? `Sample bank · ${samples.length}`
-                  : bank === "original" ? `Original practice · ${miniTestQuestions.length}` : `Reviewed PYQs · ${reviewed.length}`}
+                  : bank === "original" ? `Original practice · ${originalQuestions.length}` : `Reviewed PYQs · ${reviewed.length}`}
               </button>
             ))}
           </div>
